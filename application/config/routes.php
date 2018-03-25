@@ -38,8 +38,12 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "home";
 $route['404_override'] = '';
+$route['templates/(:any)'] = "templates/view/$1";
+$route['items'] = "items/index";
+$route['itemsCreate']['post'] = "items/store";
+
 
 
 /* End of file routes.php */
