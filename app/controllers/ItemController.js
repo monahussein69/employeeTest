@@ -6,30 +6,7 @@ app.controller('ItemController', function(dataFactory,$scope,$http){
   }
   $scope.model = model;
   
-  
-  /*$scope.searchDB = function(){
-      if($scope.searchText.length >= 3){
-          if($.isEmptyObject($scope.libraryTemp)){
-              $scope.libraryTemp = $scope.data;
-              $scope.totalItemsTemp = $scope.totalItems;
-              $scope.data = {};
-          }
-          getResultsPage(1);
-      }else{
-          if(! $.isEmptyObject($scope.libraryTemp)){
-              $scope.data = $scope.libraryTemp ;
-              $scope.totalItems = $scope.totalItemsTemp;
-              $scope.libraryTemp = {};
-          }
-      }
-  }
-  $scope.saveAdd = function(){
-    dataFactory.httpRequest('itemsCreate','POST',{},$scope.form).then(function(data) {
-      $scope.data.push(data);
-      $(".modal").modal("hide");
-    });
-  }*/
-  
+
  
   
   function getItems(){
@@ -42,48 +19,62 @@ app.controller('ItemController', function(dataFactory,$scope,$http){
  
 });
 
-app.controller('addItemController', function(dataFactory,$scope,$http){
+app.controller('addItemController', function(dataFactory,$scope,$http,Upload){
   
   var model = {
 	  data : [],
 	  saveAdd:saveAdd,
-	  itemObj:{}
+	  querySearch:querySearch,
+	  itemObj:{},
+	  fetchTags:fetchTags,
+	  searchResult:[],
+	  setValue:setValue,
+	  searchboxClicked:searchboxClicked,
+	  containerClicked:containerClicked
   }
   $scope.model = model;
   
   
-  /*$scope.searchDB = function(){
-      if($scope.searchText.length >= 3){
-          if($.isEmptyObject($scope.libraryTemp)){
-              $scope.libraryTemp = $scope.data;
-              $scope.totalItemsTemp = $scope.totalItems;
-              $scope.data = {};
-          }
-          getResultsPage(1);
-      }else{
-          if(! $.isEmptyObject($scope.libraryTemp)){
-              $scope.data = $scope.libraryTemp ;
-              $scope.totalItems = $scope.totalItemsTemp;
-              $scope.libraryTemp = {};
-          }
-      }
-  }
-  $scope.saveAdd = function(){
-    dataFactory.httpRequest('itemsCreate','POST',{},$scope.form).then(function(data) {
-      $scope.data.push(data);
-      $(".modal").modal("hide");
-    });
-  }*/
-  
   function saveAdd(){
 	  console.log(model.itemObj);
 	  dataFactory.addItem(model.itemObj,function(result){
-		 if(result){
+		 if(result.success){
 			 alert('added successfully');
 			 model.itemObj = [];
 		 }
 	  });
   }
+  
+  
+    function fetchTags(){
+      var searchText_len = model.itemObj.tag.trim().length;
+      // Check search text length
+      if(searchText_len > 0){
+		  dataFactory.filterTags(model.itemObj.tag)
+                .then(function (response) {
+					console.log(response);
+                     model.searchResult = response.data;
+                });
+      }else{
+         model.searchResult = {};
+      }               
+   }
+
+   // Set value to search box
+   function setValue(index,$event){
+      model.itemObj.tag = model.searchResult[index].name;
+      model.itemObj.tag_id = model.searchResult[index].id;
+      model.searchResult = {};
+      $event.stopPropagation();
+   }
+
+   function searchboxClicked($event){
+      $event.stopPropagation();
+   }
+
+   function containerClicked(){
+      model.searchResult = {};
+   }
   
  
   

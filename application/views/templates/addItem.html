@@ -16,6 +16,34 @@
                                 </textarea>
                             </div>
                         </div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+                            <strong>Picture : </strong>
+                            <div class="form-group" >
+                                <input type="file" ngf-select ng-model="model.itemObj.picture" name="picture" id="file-upload-picture"  /> 
+                            </div>
+                        </div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+                            <strong>Tag : </strong>
+                            <div class="form-group">
+                                <input type='text' class="form-control"
+									  ng-keyup='model.fetchTags()' 
+									  ng-click='model.searchboxClicked($event);' 
+									  ng-model='model.itemObj.tag' 
+									  placeholder='Enter text'>
+								<ul id='searchResult' >
+								  <li ng-click='model.setValue($index,$event)' 
+									  ng-repeat="result in model.searchResult" >
+									  {{ result.name }}
+								  </li>
+								</ul>
+                            </div>
+                        </div>
+						
+		
+						
+					
 						<div class="col-xs-12 col-sm-12 col-md-12">
 						 <button type="submit" ng-disabled="addItem.$invalid" class="btn btn-primary">Submit</button>
 					     <button type="button" class="btn btn-default" >Cancel</button>

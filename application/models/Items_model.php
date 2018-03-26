@@ -15,12 +15,18 @@ class Items_model extends CI_Model {
  
     function getAllItems() {
        
-        $query = $this->db->get('items');
+	   
+	   $this->db->select('items.*,tags.name as tag_name');
+	   $this->db->from('items');
+	   $this->db->join('items_tags', 'items.id = items_tags.item_id', 'left');
+	   $this->db->join('tags', 'tags.id = items_tags.tag_id ','left');
+
+        $query = $this->db->get();
 
         return $query->result();
     }
 	
-	function insertItem($data){
+	function insert($data){
 		
 		$this->db->insert('items', $data);
 		$id = $this->db->insert_id();
@@ -29,7 +35,15 @@ class Items_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	
+	function update($id,$data){
+		$this->db->where('id', $id);
+        $this->db->update('items', $data); 
+	}
 
+	
+	
 
 
 

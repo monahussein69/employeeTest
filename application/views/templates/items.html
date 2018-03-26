@@ -3,14 +3,24 @@
         <div class="pull-left">
             <h1>Item Management</h1>
         </div>
-        <div class="pull-right" style="padding-top:30px">
+        <div class="pull-right" style="margin:30px 0px">
             <div class="box-tools" style="display:inline-table">
-              <div class="input-group">
-                  <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Search" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
-                  <span class="input-group-addon">Search</span>
-              </div>
-            </div>
-            <a class="btn btn-success" href="#/items/add">Create New</a>
+             <div class="row">
+			  <div class="col-md-6 form-group">
+			    <input type="text" id="query" ng-model="query" class="form-control" placeholder="Search"/>
+			  </div>
+			  <div class="col-md-6 form-group">
+			    <select ng-model="orderList" class="form-control">
+				   <option value="">Choose Order</option>
+				   <option value="name">By name</option>
+				   <option value="description">By Description</option>
+				   <option value="picture">By Picture</option>
+				   <option value="tag">By Tags</option>
+				</select>
+			  </div>
+			
+			
+         </div>
         </div>
     </div>
 </div>
@@ -24,11 +34,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="value in model.data" >
+        <tr ng-repeat="value in model.data | filter:query | orderBy: orderList" >
             <td>{{ value.name }}</td>
             <td>{{ value.description }}</td>
-            <td>{{ value.picture }}</td>
-            <td></td>
+            <td><div ng-if="value.picture" ><img style="width:100px;height:100px" src="<?= base_url('assets/pictures')?>/{{value.picture}}" /></div></td>
+            <td>{{ value.tag_name }}</td>
         </tr>
     </tbody>
 </table>

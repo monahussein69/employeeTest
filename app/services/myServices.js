@@ -1,4 +1,4 @@
-app.factory('dataFactory', function($http) {
+app.factory('dataFactory', function($http,Upload) {
   var myService = {};
 
   myService.getItems = function(callback) {
@@ -21,6 +21,9 @@ app.factory('dataFactory', function($http) {
 						if (typeof item.picture !== 'string') {
 							myService.uploadPhoto(item.picture, response.id);
 						}
+						console.log('response');
+						console.log(response);
+						callback(response);
                 }).error(function(error){
                         console.log(error);
         });
@@ -29,23 +32,31 @@ app.factory('dataFactory', function($http) {
     }
 	
 	    myService.uploadPhoto = function (file, id) {
+			console.log('id');
+			console.log(id);
         return new Promise(function (resolve) {
 				Upload.upload({
 					url: 'index.php/items/uploadPhoto', //webAPI exposed to upload the file
 					data: {files: file, id: id} 
 				}).then(function (resp) {
-					console.log(resp);
-					if (resp.status === 200) {
-						
-						
-					} else {
-					}
+					
 				}, function (resp) { //catch error
 				}, function (evt) {
 				
 				});
 			});
-		};
+		}
+		
+		
+		myService.filterTags = function(tag) {
+			var encodeString = 'tag='+tag;
+			return $http({
+				url: './index.php/tags/getTags',
+				method: "POST",
+				data: encodeString,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			});
+        }
 	
   
   return myService;
