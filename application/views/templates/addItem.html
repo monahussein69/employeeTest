@@ -1,0 +1,54 @@
+<form method="POST" name="addItem" role="form" ng-submit="model.saveAdd()">
+                <h4>Create Item</h4>
+                <div class="container">
+                    <div class="row">
+					 <div class="col-md-8">
+					    <div class="col-xs-12 col-sm-12 col-md-12">
+                            <strong>Name : </strong>
+                            <div class="form-group">
+                                <input ng-model="model.itemObj.name" type="text" placeholder="Name" name="name" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <strong>Description : </strong>
+                            <div class="form-group" >
+                                <textarea ng-model="model.itemObj.description" class="form-control" required>
+                                </textarea>
+                            </div>
+                        </div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+                            <strong>Picture : </strong>
+                            <div class="form-group" >
+                                <input type="file" ngf-select ng-model="model.itemObj.picture" name="picture" id="file-upload-picture"  /> 
+                            </div>
+                        </div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+                            <strong>Tag : </strong>
+                            <div class="form-group">
+                                <input type='text' class="form-control"
+									  ng-keyup='model.fetchTags()' 
+									  ng-click='model.searchboxClicked($event);' 
+									  ng-model='model.itemObj.tag' 
+									  placeholder='Enter text'>
+								<ul id='searchResult' >
+								  <li ng-click='model.setValue($index,$event)' 
+									  ng-repeat="result in model.searchResult" >
+									  {{ result.name }}
+								  </li>
+								</ul>
+                            </div>
+                        </div>
+						
+		
+						
+					
+						<div class="col-xs-12 col-sm-12 col-md-12">
+						 <button type="submit" ng-disabled="addItem.$invalid" class="btn btn-primary">Submit</button>
+					     <button type="button" class="btn btn-default" >Cancel</button>
+						</div>
+					 </div>                        
+                    </div>
+                </div>
+            </form>
