@@ -24,7 +24,6 @@ app.controller('addItemController', function(dataFactory,$scope,$http,Upload){
   var model = {
 	  data : [],
 	  saveAdd:saveAdd,
-	  querySearch:querySearch,
 	  itemObj:{},
 	  fetchTags:fetchTags,
 	  searchResult:[],
